@@ -1,0 +1,72 @@
+.tab {
+    background-color: #272725;
+    color: #FFFFFF;
+}
+
+.backdrop, #RiseEditArea {
+  font:12px 'Roboto', sans-serif;
+  letter-spacing: 1px;
+  width: 50%;
+  height: 50%;
+  overflow: none;
+}
+
+#RiseEditArea {
+  margin: 0;
+  position: absolute;
+  border-radius: 0;
+  background-color: transparent;
+  color: transparent;
+  caret-color: #FFFFFF;
+  z-index: 2;
+  resize: none;
+  overflow: none;
+  font-family: monospace;
+  font-size: 23px;
+}
+
+.backdrop {
+  position: absolute;
+  z-index: 1;
+  border: 2px solid transparent;
+  pointer-events: none;
+  overflow: none;
+}
+
+.custom-area {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: none;
+  background-color: #323344;
+  color: #FFFFFF;
+  font-family: monospace;
+  font-size: 23px;
+  height: 100%;
+  width: 100%;
+}
+p{
+  font-family: monospace;
+  font-size: 23px;
+}
+
+font {
+    font-family: monospace;
+    font-size: 23px;
+}
+
+.num {
+    color: blue;
+}
+
+.str {
+    color: red;
+}
+
+.key {
+    color: green;
+}
+
+.mini {
+    background-color: #272725;
+    color: #FFFFFF;
+}
