@@ -6,8 +6,8 @@
 .backdrop, #RiseEditArea {
   font:12px 'Roboto', sans-serif;
   letter-spacing: 1px;
-  width: 50%;
-  height: 50%;
+  width: 95%;
+  height: 85%;
   overflow: none;
 }
 
@@ -22,7 +22,7 @@
   resize: none;
   overflow: none;
   font-family: monospace;
-  font-size: 23px;
+  font-size: 18px;
 }
 
 .backdrop {
@@ -37,36 +37,41 @@
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow: none;
-  background-color: #323344;
+  /*background-color: #323344;*/
+  background-color: #272725;
   color: #FFFFFF;
   font-family: monospace;
-  font-size: 23px;
+  font-size: 18px;
   height: 100%;
   width: 100%;
 }
 p{
   font-family: monospace;
-  font-size: 23px;
+  font-size: 18px;
 }
 
 font {
     font-family: monospace;
-    font-size: 23px;
+    font-size: 18px;
 }
 
-.num {
-    color: blue;
+.num_seascape {
+    color: rgb(101, 39, 126);
 }
 
-.str {
-    color: red;
+.str_seascape {
+    color: rgb(49, 110, 37);
 }
 
-.key {
-    color: green;
+.key_seascape {
+    color: rgb(30, 120, 156);
 }
 
 .mini {
     background-color: #272725;
     color: #FFFFFF;
+}
+
+.com_seascape {
+    color: rgb(105, 101, 107);
 }
