@@ -1,11 +1,12 @@
 var number = 1;
 var selected = "main.gizmo";
+var mode = "seascape";
 var ed = document.getElementById("custom-area");
 var text = document.getElementById("RiseEditArea");
-let backdrop = document.querySelector(".backdrop");
+var backdrop = document.querySelector(".backdrop");
 text.focus();
 
-let tab_values =  {
+var tab_values =  {
     "main.gizmo": "",
 };
 
@@ -28,7 +29,7 @@ function lex(code) {
                 num += c;
                 c = code[++pos];
             }
-            html += "<spam class=\"num\">" + num +"</spam>";
+            html += "<spam class=\"num_" + mode + "\">" + num +"</spam>";
         } else if (c === '"' || c === "'") {
             let str = "";
             let delimiter = c;
@@ -44,22 +45,33 @@ function lex(code) {
             }
             c = code[++pos];
             if (found) {
-                html += "<spam class=\"str\">" + delimiter + str + delimiter +"</spam>";
+                html += "<spam class=\"str_" + mode + "\">" + delimiter + str + delimiter +"</spam>";
             } else {
-                html += "<spam class=\"str\">\"" + str + "</spam>";
+                html += "<spam class=\"str_" + mode + "\">\"" + str + "</spam>";
             }
         } else if (isAlpha(c)) {
             let name = "";
-            while (isAlpha(c)) {
+            while (isAlpha(c) || isDigit(c)) {
                 name += c;
                 c = code[++pos];
             }
-            const keys = ["write", "int", "string", "if", "return", "char"];
+            const keys = ["write", "int", "string", "if", "return", "char", "while"];
             if (keys.includes(name)) {
-                html += "<spam class=\"key\">" + name + "</spam>";
+                html += "<spam class=\"key_" + mode + "\">" + name + "</spam>";
                 continue;
             }
             html += "<spam>" + name + "</spam>";
+        } else if (c === '\\') {
+            let comment = "\\";
+            c = code[++pos];
+            while (pos < code.length) {
+                if (c === '\n') {
+                    break;
+                }
+                comment += c;
+                c = code[++pos];
+            }
+            html += "<spam class=\"com_" + mode + "\">" + comment + "</spam>"
         } else {
             html += c;
             pos++;
@@ -77,7 +89,7 @@ function newTab() {
     if (selected === "main.gizmo") {
         tab_values["main.gizmo"] = ed.innerText
     }
-    tabs.innerHTML += "<span><button class=\"tab\" onclick=\"select(this.innerText);\">Untitled" + number + ".gizmo</button><button class=\"mini\" onclick=\"this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>"
+    tabs.innerHTML += "<span><button class=\"tab\" onclick=\"select(this.innerText);\">Untitled" + number + ".gizmo</button><button class=\"mini\" onclick=\"ed.innerText = tab_values['main.gizmo'];text.value = tab_values['main.gizmo'];delete tab_values[this.parentNode.childNodes[0].value];this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>"
     tab_values["Untitled" + number + ".gizmo"] = "";
     selected = "Untitled" + number + ".gizmo";
     ed.innerText = tab_values[selected];
