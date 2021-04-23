@@ -25,7 +25,7 @@
 
 .front code::before {
   content: counter(line);
-  color: #FFFFFF;
+  color: grey;
   counter-increment: line;
   position: absolute;
   right: calc(100% + 16px);
@@ -38,7 +38,7 @@
   border-radius: 0;
   background-color: transparent;
   color: transparent;
-  caret-color: #FFFFFF;
+  caret-color: grey;
   z-index: 2;
   resize: none;
   overflow: none;
@@ -132,4 +132,28 @@ font {
 
 .oper_Elflord {
     color: red;
+}
+
+.num_Springfield {
+    color: rgb(3, 196, 83);
+}
+
+.str_Springfield {
+    color: rgb(3, 196, 83);
+}
+
+.key_Springfield {
+    color: rgb(49, 41, 168);
+}
+
+.com_Springfield {
+    color: rgb(184, 201, 184);
+}
+
+.type_Springfield {
+    color: rgb(57, 119, 57);
+}
+
+.oper_Springfield {
+    color: #000000;
 }
