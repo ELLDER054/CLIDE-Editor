@@ -3,10 +3,16 @@
     color: #FFFFFF;
 }
 
+#mode {
+    background-color: black;
+    color: white;
+    float: right;
+}
+
 .backdrop, #editor {
   font:12px 'Roboto', sans-serif;
   letter-spacing: 1px;
-  width: 80%;
+  width: 70%;
   height: 85%;
   overflow: none;
 }
@@ -19,6 +25,7 @@
 
 .front code::before {
   content: counter(line);
+  color: #FFFFFF;
   counter-increment: line;
   position: absolute;
   right: calc(100% + 16px);
@@ -54,7 +61,7 @@
   word-wrap: break-word;
   overflow: none;
   /*background-color: #323344;*/
-  background-color: #272725;
+  background-color: #000000;
   color: #FFFFFF;
   font-family: monospace;
   font-size: 14px;
@@ -74,16 +81,24 @@ font {
     font-size: 14px;
 }
 
-.num_seascape {
+.num_Seascape {
     color: rgb(101, 39, 126);
 }
 
-.str_seascape {
+.str_Seascape {
     color: rgb(49, 110, 37);
 }
 
-.key_seascape {
+.key_Seascape {
     color: rgb(30, 120, 156);
+}
+
+.com_Seascape {
+    color: rgb(105, 101, 107);
+}
+
+.type_Seascape {
+    color: rgb(163, 154, 214);
 }
 
 .mini {
@@ -91,10 +106,22 @@ font {
     color: #FFFFFF;
 }
 
-.com_seascape {
-    color: rgb(105, 101, 107);
+.num_Elflord {
+    color: magenta;
 }
 
-.type_seascape {
-    color: rgb(163, 154, 214);
+.str_Elflord {
+    color: magenta;
+}
+
+.key_Elflord {
+    color: darkmagenta;
+}
+
+.com_Elflord {
+    color: DarkCyan;
+}
+
+.type_Elflord {
+    color: lightgreen;
 }
