@@ -1,9 +1,10 @@
 var number = 1;
 var selected = "main.gizmo";
-var mode = "seascape";
+var mode = "Elflord";
 var ed = document.getElementById("front");
 var text = document.getElementById("editor");
 var backdrop = document.querySelector(".backdrop");
+var modeSelect = document.getElementById("mode");
 text.focus();
 
 var tab_values =  {
@@ -55,8 +56,8 @@ function lex(code) {
                 name += c;
                 c = code[++pos];
             }
-            const keys = ["write", "if", "else", "return", "while", "new", "class", "read", "in", "for", "init", "or", "and", "not"];
-            const types = ["int", "string", "char", "none"]
+            const keys = ["write", "if", "else", "return", "while", "new", "class", "read", "in", "for", "init", "or", "and", "not", "function"];
+            const types = ["int", "string", "char", "none", "const"]
             if (keys.includes(name)) {
                 html += "<span class=\"key_" + mode + "\">" + name + "</span>";
                 continue;
@@ -97,7 +98,7 @@ function newTab() {
     tab_values["Untitled" + number + ".gizmo"] = "";
     selected = "Untitled" + number + ".gizmo";
     ed.innerText = tab_values[selected];
-    ed.innerHTML = ed.innerText;
+    ed.innerHTML = "<code>" + ed.innerText + "</code>";
     text.value = tab_values[selected];
     ed.focus();
     number++;
@@ -107,7 +108,7 @@ function select(v) {
     tab_values[selected] = ed.innerText;
     selected = v;
     text.value = tab_values[selected];
-    ed.innerHTML = applyColors(text.value);
+    ed.innerHTML = "<code>" + applyColors(text.value) + "</code>";
     text.focus();
 }
 
@@ -126,4 +127,15 @@ text.addEventListener("input", function() {
 
 text.addEventListener("scroll", function() {
     backdrop.scrollTop = text.scrollTop;
+});
+
+const bgs = {
+    "Seascape": "#272725",
+    "Elflord": "#000000",
+}
+
+modeSelect.addEventListener("input", function() {
+    mode = modeSelect.value;
+    ed.style.backgroundColor = bgs[modeSelect.value];
+    ed.innerHTML = "<code>" + applyColors(text.value) + "</code>";
 });
