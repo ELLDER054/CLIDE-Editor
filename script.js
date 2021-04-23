@@ -1,8 +1,8 @@
 var number = 1;
 var selected = "main.gizmo";
 var mode = "seascape";
-var ed = document.getElementById("custom-area");
-var text = document.getElementById("RiseEditArea");
+var ed = document.getElementById("front");
+var text = document.getElementById("editor");
 var backdrop = document.querySelector(".backdrop");
 text.focus();
 
@@ -29,7 +29,7 @@ function lex(code) {
                 num += c;
                 c = code[++pos];
             }
-            html += "<spam class=\"num_" + mode + "\">" + num +"</spam>";
+            html += "<span class=\"num_" + mode + "\">" + num +"</span>";
         } else if (c === '"' || c === "'") {
             let str = "";
             let delimiter = c;
@@ -45,9 +45,9 @@ function lex(code) {
             }
             c = code[++pos];
             if (found) {
-                html += "<spam class=\"str_" + mode + "\">" + delimiter + str + delimiter +"</spam>";
+                html += "<span class=\"str_" + mode + "\">" + delimiter + str + delimiter +"</span>";
             } else {
-                html += "<spam class=\"str_" + mode + "\">\"" + str + "</spam>";
+                html += "<span class=\"str_" + mode + "\">" + delimiter + str + "</span>";
             }
         } else if (isAlpha(c)) {
             let name = "";
@@ -55,12 +55,16 @@ function lex(code) {
                 name += c;
                 c = code[++pos];
             }
-            const keys = ["write", "int", "string", "if", "return", "char", "while"];
+            const keys = ["write", "if", "else", "return", "while", "new", "class", "read", "in", "for", "init", "or", "and", "not"];
+            const types = ["int", "string", "char", "none"]
             if (keys.includes(name)) {
-                html += "<spam class=\"key_" + mode + "\">" + name + "</spam>";
+                html += "<span class=\"key_" + mode + "\">" + name + "</span>";
+                continue;
+            } else if (types.includes(name)) {
+                html += "<span class=\"type_" + mode + "\">" + name + "</span>";
                 continue;
             }
-            html += "<spam>" + name + "</spam>";
+            html += "<span>" + name + "</span>";
         } else if (c === '\\') {
             let comment = "\\";
             c = code[++pos];
@@ -71,7 +75,7 @@ function lex(code) {
                 comment += c;
                 c = code[++pos];
             }
-            html += "<spam class=\"com_" + mode + "\">" + comment + "</spam>"
+            html += "<span class=\"com_" + mode + "\">" + comment + "</span>"
         } else {
             html += c;
             pos++;
@@ -89,10 +93,11 @@ function newTab() {
     if (selected === "main.gizmo") {
         tab_values["main.gizmo"] = ed.innerText
     }
-    tabs.innerHTML += "<span><button class=\"tab\" onclick=\"select(this.innerText);\">Untitled" + number + ".gizmo</button><button class=\"mini\" onclick=\"ed.innerText = tab_values['main.gizmo'];text.value = tab_values['main.gizmo'];delete tab_values[this.parentNode.childNodes[0].value];this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>"
+    tabs.innerHTML += "<span><button class=\"tab\" onclick=\"select(this.innerText);\">Untitled" + number + ".gizmo</button><button class=\"mini\" onclick=\"ed.innerText = tab_values['main.gizmo'];text.value = tab_values['main.gizmo'];delete tab_values[this.parentNode.childNodes[0].value];select('main.gizmo');this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>"
     tab_values["Untitled" + number + ".gizmo"] = "";
     selected = "Untitled" + number + ".gizmo";
     ed.innerText = tab_values[selected];
+    ed.innerHTML = ed.innerText;
     text.value = tab_values[selected];
     ed.focus();
     number++;
@@ -102,13 +107,21 @@ function select(v) {
     tab_values[selected] = ed.innerText;
     selected = v;
     text.value = tab_values[selected];
-    ed.innerText = tab_values[selected];
     ed.innerHTML = applyColors(text.value);
     text.focus();
 }
 
 text.addEventListener("input", function() {
-    ed.innerHTML = applyColors(text.value);
+    let s = applyColors(text.value).split("\n");
+    let code = "";
+    for (const line of s) {
+        if (line === "") {
+            code += "<code>\n</code>";
+        } else {
+            code += "<code>" + line + "</code>";
+        }
+    }
+    ed.innerHTML = code;
 });
 
 text.addEventListener("scroll", function() {
