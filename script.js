@@ -7,7 +7,7 @@ var backdrop = document.querySelector(".backdrop");
 var modeSelect = document.getElementById("mode");
 text.focus();
 
-var tab_values =  {
+var tab_values = {
     "main.gizmo": "",
 };
 
@@ -31,7 +31,7 @@ function lex(code) {
                 num += c;
                 c = code[++pos];
             }
-            html += "<span class=\"num_" + mode + "\">" + num +"</span>";
+            html += "<span class=\"num_" + mode + "\">" + num + "</span>";
         } else if (c === '"' || c === "'") {
             let str = "";
             let delimiter = c;
@@ -47,7 +47,7 @@ function lex(code) {
             }
             c = code[++pos];
             if (found) {
-                html += "<span class=\"str_" + mode + "\">" + delimiter + str + delimiter +"</span>";
+                html += "<span class=\"str_" + mode + "\">" + delimiter + str + delimiter + "</span>";
             } else {
                 html += "<span class=\"str_" + mode + "\">" + delimiter + str + "</span>";
             }
@@ -125,7 +125,7 @@ function select(v) {
     text.focus();
 }
 
-text.addEventListener("input", function() {
+text.addEventListener("input", function () {
     let s = applyColors(text.value).split("\n");
     let code = "";
     for (const line of s) {
@@ -138,18 +138,26 @@ text.addEventListener("input", function() {
     ed.innerHTML = code;
 });
 
-text.addEventListener("scroll", function() {
+text.addEventListener("scroll", function () {
     backdrop.scrollTop = text.scrollTop;
 });
 
 const bgs = {
     "Seascape": "#272725",
     "Elflord": "#000000",
+    "Springfield": "#FFFFFF",
 }
 
-modeSelect.addEventListener("input", function() {
+const fgs = {
+    "Seascape": "#FFFFFF",
+    "Elflord": "#FFFFFF",
+    "Springfield": "#000000",
+}
+
+modeSelect.addEventListener("input", function () {
     mode = modeSelect.value;
     ed.style.backgroundColor = bgs[modeSelect.value];
+    ed.style.color = fgs[modeSelect.value];
     let s = applyColors(text.value).split("\n");
     let code = "";
     for (const line of s) {
