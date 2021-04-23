@@ -20,6 +20,7 @@ function isAlpha(c) {
 }
 
 function lex(code) {
+    const operators = ["+", "-", "*", "/", "="];
     let html = "";
     let pos = 0;
     while (pos < code.length) {
@@ -66,6 +67,9 @@ function lex(code) {
                 continue;
             }
             html += "<span>" + name + "</span>";
+        } else if (operators.includes(c)) {
+            html += "<span class=\"oper_" + mode + "\">" + c + "</span>";
+            pos++;
         } else if (c === '\\') {
             let comment = "\\";
             c = code[++pos];
@@ -76,7 +80,7 @@ function lex(code) {
                 comment += c;
                 c = code[++pos];
             }
-            html += "<span class=\"com_" + mode + "\">" + comment + "</span>"
+            html += "<span class=\"com_" + mode + "\">" + comment + "</span>";
         } else {
             html += c;
             pos++;
@@ -108,7 +112,16 @@ function select(v) {
     tab_values[selected] = ed.innerText;
     selected = v;
     text.value = tab_values[selected];
-    ed.innerHTML = "<code>" + applyColors(text.value) + "</code>";
+    let s = applyColors(text.value).split("\n");
+    let code = "";
+    for (const line of s) {
+        if (line === "") {
+            code += "<code>\n</code>";
+        } else {
+            code += "<code>" + line + "</code>";
+        }
+    }
+    ed.innerHTML = code;
     text.focus();
 }
 
@@ -137,5 +150,14 @@ const bgs = {
 modeSelect.addEventListener("input", function() {
     mode = modeSelect.value;
     ed.style.backgroundColor = bgs[modeSelect.value];
-    ed.innerHTML = "<code>" + applyColors(text.value) + "</code>";
+    let s = applyColors(text.value).split("\n");
+    let code = "";
+    for (const line of s) {
+        if (line === "") {
+            code += "<code>\n</code>";
+        } else {
+            code += "<code>" + line + "</code>";
+        }
+    }
+    ed.innerHTML = code;
 });
