@@ -82,7 +82,7 @@ font {
 }
 
 .num_Seascape {
-    color: rgb(101, 39, 126);
+    color: rgb(139, 79, 163);
 }
 
 .str_Seascape {
@@ -99,6 +99,10 @@ font {
 
 .type_Seascape {
     color: rgb(163, 154, 214);
+}
+
+.oper_Seascape {
+    color: #FFFFFF;
 }
 
 .mini {
@@ -124,4 +128,8 @@ font {
 
 .type_Elflord {
     color: lightgreen;
+}
+
+.oper_Elflord {
+    color: red;
 }
