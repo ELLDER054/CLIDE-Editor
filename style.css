@@ -3,15 +3,29 @@
     color: #FFFFFF;
 }
 
-.backdrop, #RiseEditArea {
+.backdrop, #editor {
   font:12px 'Roboto', sans-serif;
   letter-spacing: 1px;
-  width: 95%;
+  width: 80%;
   height: 85%;
   overflow: none;
 }
 
-#RiseEditArea {
+.front code {
+  display: block;
+  position: relative;
+  white-space: pre-wrap;
+}
+
+.front code::before {
+  content: counter(line);
+  counter-increment: line;
+  position: absolute;
+  right: calc(100% + 16px);
+  opacity: 0.5;
+}
+
+#editor {
   margin: 0;
   position: absolute;
   border-radius: 0;
@@ -22,7 +36,9 @@
   resize: none;
   overflow: none;
   font-family: monospace;
-  font-size: 18px;
+  font-size: 14px;
+  overflow-y: auto;
+  padding-left: 48px;
 }
 
 .backdrop {
@@ -33,7 +49,7 @@
   overflow: none;
 }
 
-.custom-area {
+.front {
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow: none;
@@ -41,18 +57,21 @@
   background-color: #272725;
   color: #FFFFFF;
   font-family: monospace;
-  font-size: 18px;
+  font-size: 14px;
   height: 100%;
   width: 100%;
+  counter-reset: line;
+  overflow-y: auto;
+  padding-left: 48px;
 }
 p{
   font-family: monospace;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 font {
     font-family: monospace;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .num_seascape {
@@ -74,4 +93,8 @@ font {
 
 .com_seascape {
     color: rgb(105, 101, 107);
+}
+
+.type_seascape {
+    color: rgb(163, 154, 214);
 }
