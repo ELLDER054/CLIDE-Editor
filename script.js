@@ -20,7 +20,7 @@ function isAlpha(c) {
 }
 
 function lex(code) {
-    const operators = ["+", "-", "*", "/", "="];
+    const operators = ["+", "-", "*", "/", "=", '.'];
     let html = "";
     let pos = 0;
     while (pos < code.length) {
@@ -57,16 +57,15 @@ function lex(code) {
                 name += c;
                 c = code[++pos];
             }
-            const keys = ["write", "if", "else", "return", "while", "new", "class", "read", "in", "for", "init", "or", "and", "not", "function"];
-            const types = ["int", "string", "char", "none", "const"]
+            const keys = ["write", "if", "else", "return", "while", "new", "class", "read", "in", "for", "init", "or", "and", "not", "con", "include", "as"];
+            const types = ["int", "string", "char", "none"]
             if (keys.includes(name)) {
                 html += "<span class=\"key_" + mode + "\">" + name + "</span>";
-                continue;
             } else if (types.includes(name)) {
                 html += "<span class=\"type_" + mode + "\">" + name + "</span>";
-                continue;
+            } else {
+                html += "<span>" + name + "</span>";
             }
-            html += "<span>" + name + "</span>";
         } else if (operators.includes(c)) {
             html += "<span class=\"oper_" + mode + "\">" + c + "</span>";
             pos++;
@@ -98,7 +97,7 @@ function newTab() {
     if (selected === "main.gizmo") {
         tab_values["main.gizmo"] = ed.innerText
     }
-    tabs.innerHTML += "<span><button class=\"tab\" onclick=\"select(this.innerText);\">Untitled" + number + ".gizmo</button><button class=\"mini\" onclick=\"ed.innerText = tab_values['main.gizmo'];text.value = tab_values['main.gizmo'];delete tab_values[this.parentNode.childNodes[0].value];select('main.gizmo');this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>"
+    tabs.innerHTML += "<span><button class=\"tab\" onclick=\"select(this.innerText);\">Untitled" + number + ".gizmo</button><button class=\"mini\" onclick=\"ed.innerText = tab_values['main.gizmo'];text.value = tab_values['main.gizmo'];delete tab_values[this.parentNode.childNodes[0].value];select('main.gizmo');this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>";
     tab_values["Untitled" + number + ".gizmo"] = "";
     selected = "Untitled" + number + ".gizmo";
     ed.innerText = tab_values[selected];
@@ -140,6 +139,7 @@ text.addEventListener("input", function () {
 
 text.addEventListener("scroll", function () {
     backdrop.scrollTop = text.scrollTop;
+    ed.scrollTop = text.scrollTop;
 });
 
 const bgs = {
@@ -156,8 +156,8 @@ const fgs = {
 
 modeSelect.addEventListener("input", function () {
     mode = modeSelect.value;
-    ed.style.backgroundColor = bgs[modeSelect.value];
-    ed.style.color = fgs[modeSelect.value];
+    ed.style.backgroundColor = bgs[mode];
+    ed.style.color = fgs[mode];
     let s = applyColors(text.value).split("\n");
     let code = "";
     for (const line of s) {
