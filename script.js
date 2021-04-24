@@ -11,6 +11,7 @@ var tab_values = {
     "main.gizmo": "",
 };
 
+// syntax highlighting
 function isDigit(c) {
     return c >= '0' && c <= '9';
 }
@@ -93,11 +94,21 @@ function applyColors(text) {
     return code;
 }
 
+// tab control
 function newTab() {
     if (selected === "main.gizmo") {
         tab_values["main.gizmo"] = ed.innerText
     }
-    tabs.innerHTML += "<span><button class=\"tab\" onclick=\"select(this.innerText);\">Untitled" + number + ".gizmo</button><button class=\"mini\" onclick=\"ed.innerText = tab_values['main.gizmo'];text.value = tab_values['main.gizmo'];delete tab_values[this.parentNode.childNodes[0].value];select('main.gizmo');this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>";
+    tabs.innerHTML += "<span><input type=\"button\" class=\"tab\" onclick=\"select(this.innerText);\" value=\"Untitled" + number + ".gizmo\"><button class=\"mini\" onclick=\"ed.innerText = tab_values['main.gizmo'];text.value = tab_values['main.gizmo'];delete tab_values[this.parentNode.childNodes[0].value];select('main.gizmo');this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>";
+    for (const tab of document.getElementsByClassName("tab")) {
+        tab.style.backgroundColor = bgs[modeSelect.value];
+        tab.style.color = fgs[modeSelect.value];
+    }
+    for (const min of document.getElementsByClassName("mini")) {
+        min.style.backgroundColor = bgs[modeSelect.value];
+        min.style.color = fgs[modeSelect.value];
+    }
+    modeSelect.style.backgroundColor = bgs[mode];
     tab_values["Untitled" + number + ".gizmo"] = "";
     selected = "Untitled" + number + ".gizmo";
     ed.innerText = tab_values[selected];
@@ -124,6 +135,7 @@ function select(v) {
     text.focus();
 }
 
+// on changed input
 text.addEventListener("input", function () {
     let s = applyColors(text.value).split("\n");
     let code = "";
@@ -137,11 +149,75 @@ text.addEventListener("input", function () {
     ed.innerHTML = code;
 });
 
+// matching pairs
+function getCaretPosition(ctrl) {
+    // IE < 9 Support 
+    if (document.selection) {
+        ctrl.focus();
+        var range = document.selection.createRange();
+        var rangelen = range.text.length;
+        range.moveStart('character', -ctrl.value.length);
+        var start = range.text.length - rangelen;
+        return start;
+    } // IE >=9 and other browsers
+    else if (ctrl.selectionStart || ctrl.selectionStart == '0') {
+        return ctrl.selectionStart;
+    } else {
+        return 0;
+    }
+}
+
+function insert(pos, c) {
+    text.value = text.value.slice(0, pos) + c + text.value.slice(pos);
+}
+ 
+function setCaretPosition(ctrl, start, end) {
+
+    if (ctrl.setSelectionRange) {
+        ctrl.focus();
+        ctrl.setSelectionRange(start, end);
+    }
+
+    else if (ctrl.createTextRange) {
+        var range = ctrl.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', end);
+        range.moveStart('character', start);
+        range.select();
+    }
+}
+
+text.addEventListener("keyup", function (e) {
+    const pairs = {
+        '[': ']',
+        '(': ')',
+        '"': '"',
+        "'": "'",
+    }
+    if (Object.keys(pairs).includes(e.key)) {
+        const pos = getCaretPosition(text);
+        insert(pos, pairs[e.key]);
+        setCaretPosition(text, pos, pos);
+        let s = applyColors(text.value).split("\n");
+        let code = "";
+        for (const line of s) {
+            if (line === "") {
+                code += "<code>\n</code>";
+            } else {
+                code += "<code>" + line + "</code>";
+            }
+        }
+        ed.innerHTML = code;
+    }
+});
+
+// scroll
 text.addEventListener("scroll", function () {
     backdrop.scrollTop = text.scrollTop;
     ed.scrollTop = text.scrollTop;
 });
 
+// on changed input
 const bgs = {
     "Seascape": "#272725",
     "Elflord": "#000000",
@@ -156,6 +232,16 @@ const fgs = {
 
 modeSelect.addEventListener("input", function () {
     mode = modeSelect.value;
+    for (const tab of document.getElementsByClassName("tab")) {
+        tab.style.backgroundColor = bgs[mode];
+        tab.style.color = fgs[mode];
+    }
+    for (const min of document.getElementsByClassName("mini")) {
+        min.style.backgroundColor = bgs[mode];
+        min.style.color = fgs[mode];
+    }
+    modeSelect.style.backgroundColor = bgs[mode];
+    modeSelect.style.color = fgs[mode];
     ed.style.backgroundColor = bgs[mode];
     ed.style.color = fgs[mode];
     let s = applyColors(text.value).split("\n");
