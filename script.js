@@ -58,7 +58,7 @@ function lex(code) {
                 name += c;
                 c = code[++pos];
             }
-            const keys = ["write", "if", "else", "return", "while", "new", "class", "read", "in", "for", "init", "or", "and", "not", "con", "include", "as"];
+            const keys = ["write", "if", "else", "return", "while", "new", "class", "read", "in", "for", "init", "or", "and", "not", "con", "include", "as", "this"];
             const types = ["int", "string", "char", "none"]
             if (keys.includes(name)) {
                 html += "<span class=\"key_" + mode + "\">" + name + "</span>";
@@ -99,7 +99,7 @@ function newTab() {
     if (selected === "main.gizmo") {
         tab_values["main.gizmo"] = ed.innerText
     }
-    tabs.innerHTML += "<span><input type=\"button\" class=\"tab\" onclick=\"select(this.innerText);\" value=\"Untitled" + number + ".gizmo\"><button class=\"mini\" onclick=\"ed.innerText = tab_values['main.gizmo'];text.value = tab_values['main.gizmo'];delete tab_values[this.parentNode.childNodes[0].value];select('main.gizmo');this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>";
+    tabs.innerHTML += "<span><button class=\"tab\" onclick=\"select(this.innerText);\">Untitled" + number + ".gizmo</button><button class=\"mini\" onclick=\"ed.innerText = tab_values['main.gizmo'];text.value = tab_values['main.gizmo'];delete tab_values[this.parentNode.childNodes[0].value];select('main.gizmo');this.parentNode.childNodes[0].remove();this.parentNode.remove();this.remove();\">x</button></span>";
     for (const tab of document.getElementsByClassName("tab")) {
         tab.style.backgroundColor = bgs[modeSelect.value];
         tab.style.color = fgs[modeSelect.value];
@@ -114,14 +114,18 @@ function newTab() {
     ed.innerText = tab_values[selected];
     ed.innerHTML = "<code>" + ed.innerText + "</code>";
     text.value = tab_values[selected];
-    ed.focus();
     number++;
 }
 
 function select(v) {
+    if (selected === v) {
+        text.focus();
+        return;
+    }
     tab_values[selected] = ed.innerText;
     selected = v;
     text.value = tab_values[selected];
+    text.focus();
     let s = applyColors(text.value).split("\n");
     let code = "";
     for (const line of s) {
@@ -132,7 +136,6 @@ function select(v) {
         }
     }
     ed.innerHTML = code;
-    text.focus();
 }
 
 // on changed input
