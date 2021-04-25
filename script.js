@@ -213,7 +213,7 @@ text.addEventListener("keydown", function (e) {
         '(': ')',
         '"': '"',
         "'": "'",
-        '{': '}',
+        '{': '\n}',
     }
     if (Object.keys(pairs).includes(e.key)) {
         const pos = getCaretPosition(text);
