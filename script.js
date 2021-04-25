@@ -170,6 +170,13 @@ function getCaretPosition(ctrl) {
 function insert(pos, c) {
     text.value = text.value.slice(0, pos) + c + text.value.slice(pos);
 }
+
+function un_insert(pos, c1, c2) {
+    if (text.value[pos - 1] === c1 && text.value[pos] === c2) {
+        text.value = text.value.slice(0, pos - 1) + text.value.slice(pos);
+        setCaretPosition(text, pos, pos);
+    }
+}
  
 function setCaretPosition(ctrl, start, end) {
 
@@ -187,27 +194,51 @@ function setCaretPosition(ctrl, start, end) {
     }
 }
 
-text.addEventListener("keyup", function (e) {
+function resetColors() {
+    let s = applyColors(text.value).split("\n");
+    let code = "";
+    for (const line of s) {
+        if (line === "") {
+            code += "<code>\n</code>";
+        } else {
+            code += "<code>" + line + "</code>";
+        }
+    }
+    ed.innerHTML = code;
+}
+
+text.addEventListener("keydown", function (e) {
     const pairs = {
         '[': ']',
         '(': ')',
         '"': '"',
         "'": "'",
+        '{': '}',
     }
     if (Object.keys(pairs).includes(e.key)) {
         const pos = getCaretPosition(text);
         insert(pos, pairs[e.key]);
         setCaretPosition(text, pos, pos);
-        let s = applyColors(text.value).split("\n");
-        let code = "";
-        for (const line of s) {
-            if (line === "") {
-                code += "<code>\n</code>";
-            } else {
-                code += "<code>" + line + "</code>";
-            }
+        resetColors();
+    } else if (Object.values(pairs).includes(e.key)) {
+        const pos = getCaretPosition(text);
+        if (text.value[pos] === e.key) {
+            e.preventDefault();
         }
-        ed.innerHTML = code;
+        setCaretPosition(text, pos + 1, pos + 1);
+        resetColors();
+    } else if (e.which === 9) {
+        e.preventDefault();
+        const pos = getCaretPosition(text);
+        insert(pos, "   ")
+        setCaretPosition(text, pos + 2, pos + 2);
+        resetColors();
+    } else if (e.which === 8) {
+        const pos = getCaretPosition(text);
+        if (Object.keys(pairs).includes(text.value[pos - 1])) {
+            un_insert(pos, text.value[pos - 1], pairs[text.value[pos - 1]]);
+            resetColors();
+        }
     }
 });
 
