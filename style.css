@@ -12,7 +12,7 @@
 .backdrop, #editor {
   font:12px 'Roboto', sans-serif;
   letter-spacing: 1px;
-  width: 70%;
+  width: 65%;
   height: 85%;
   overflow: none;
 }
@@ -81,27 +81,27 @@ font {
     font-size: 14px;
 }
 
-.num_Seascape {
-    color: rgb(139, 79, 163);
+.num-Medium-Dark {
+    color: rgb(83, 151, 69);
 }
 
-.str_Seascape {
-    color: rgb(49, 110, 37);
+.str-Medium-Dark {
+    color: rgb(83, 151, 69);
 }
 
-.key_Seascape {
+.key-Medium-Dark {
     color: rgb(30, 120, 156);
 }
 
-.com_Seascape {
+.com-Medium-Dark {
     color: rgb(105, 101, 107);
 }
 
-.type_Seascape {
-    color: rgb(163, 154, 214);
+.type-Medium-Dark {
+    color: rgb(152, 142, 211);
 }
 
-.oper_Seascape {
+.oper-Medium-Dark {
     color: #FFFFFF;
 }
 
@@ -110,52 +110,60 @@ font {
     color: #FFFFFF;
 }
 
-.num_Elflord {
-    color: magenta;
+.num-Dark {
+    color: palevioletred;
 }
 
-.str_Elflord {
-    color: magenta;
+.str-Dark {
+    color: palevioletred;
 }
 
-.key_Elflord {
-    color: darkmagenta;
+.key-Dark {
+    color: dodgerblue;
 }
 
-.com_Elflord {
-    color: DarkCyan;
+.com-Dark {
+    color: darkcyan;
 }
 
-.type_Elflord {
-    color: lightgreen;
+.type-Dark {
+    color: rgb(122, 184, 245);
 }
 
-.oper_Elflord {
+.oper-Dark {
     color: red;
 }
 
-.num_Springfield {
+.property-Dark {
+    color: rgb(0, 230, 145);
+}
+
+.num-Light {
     color: rgb(3, 196, 83);
 }
 
-.str_Springfield {
+.str-Light {
     color: rgb(3, 196, 83);
 }
 
-.key_Springfield {
+.key-Light {
     color: rgb(49, 41, 168);
 }
 
-.com_Springfield {
+.com-Light {
     color: rgb(184, 201, 184);
 }
 
-.type_Springfield {
+.type-Light {
     color: rgb(57, 119, 57);
 }
 
-.oper_Springfield {
+.oper-Light {
     color: #000000;
+}
+
+.property-Light {
+    color: rgb(168, 103, 103);
 }
 
 #mode {
