@@ -1,6 +1,6 @@
 var number = 1;
 var selected = "main.gizmo";
-var mode = "Elflord";
+var mode = "Dark";
 var ed = document.getElementById("front");
 var text = document.getElementById("editor");
 var backdrop = document.querySelector(".backdrop");
@@ -21,7 +21,7 @@ function isAlpha(c) {
 }
 
 function lex(code) {
-    const operators = ["+", "-", "*", "/", "=", '.'];
+    const operators = ["+", "-", "*", "/", "="];
     let html = "";
     let pos = 0;
     while (pos < code.length) {
@@ -32,7 +32,7 @@ function lex(code) {
                 num += c;
                 c = code[++pos];
             }
-            html += "<span class=\"num_" + mode + "\">" + num + "</span>";
+            html += "<span class=\"num-" + mode + "\">" + num + "</span>";
         } else if (c === '"' || c === "'") {
             let str = "";
             let delimiter = c;
@@ -48,9 +48,9 @@ function lex(code) {
             }
             c = code[++pos];
             if (found) {
-                html += "<span class=\"str_" + mode + "\">" + delimiter + str + delimiter + "</span>";
+                html += "<span class=\"str-" + mode + "\">" + delimiter + str + delimiter + "</span>";
             } else {
-                html += "<span class=\"str_" + mode + "\">" + delimiter + str + "</span>";
+                html += "<span class=\"str-" + mode + "\">" + delimiter + str + "</span>";
             }
         } else if (isAlpha(c)) {
             let name = "";
@@ -59,17 +59,25 @@ function lex(code) {
                 c = code[++pos];
             }
             const keys = ["write", "if", "else", "return", "while", "new", "class", "read", "in", "for", "init", "or", "and", "not", "con", "include", "as", "this"];
-            const types = ["int", "string", "char", "none"]
+            const types = ["int", "string", "char"]
             if (keys.includes(name)) {
-                html += "<span class=\"key_" + mode + "\">" + name + "</span>";
+                html += "<span class=\"key-" + mode + "\">" + name + "</span>";
             } else if (types.includes(name)) {
-                html += "<span class=\"type_" + mode + "\">" + name + "</span>";
+                html += "<span class=\"type-" + mode + "\">" + name + "</span>";
             } else {
                 html += "<span>" + name + "</span>";
             }
         } else if (operators.includes(c)) {
-            html += "<span class=\"oper_" + mode + "\">" + c + "</span>";
+            html += "<span class=\"oper-" + mode + "\">" + c + "</span>";
             pos++;
+        } else if (c === '.') {
+            let property = ".";
+            c = code[++pos];
+            while (isAlpha(c) || isDigit(c)) {
+                property += c;
+                c = code[++pos];
+            }
+            html += "<span class=\"property-" + mode + "\">" + property + "</span>";
         } else if (c === '\\') {
             let comment = "\\";
             c = code[++pos];
@@ -80,7 +88,7 @@ function lex(code) {
                 comment += c;
                 c = code[++pos];
             }
-            html += "<span class=\"com_" + mode + "\">" + comment + "</span>";
+            html += "<span class=\"com-" + mode + "\">" + comment + "</span>";
         } else {
             html += c;
             pos++;
@@ -234,7 +242,7 @@ text.addEventListener("keydown", function (e) {
         e.preventDefault();
         const pos = getCaretPosition(text);
         insert(pos, "   ")
-        setCaretPosition(text, pos + 2, pos + 2);
+        setCaretPosition(text, pos + 3, pos + 3);
         resetColors();
     } else if (e.which === 8) {
         const pos = getCaretPosition(text);
@@ -253,15 +261,15 @@ text.addEventListener("scroll", function () {
 
 // on changed input
 const bgs = {
-    "Seascape": "#272725",
-    "Elflord": "#000000",
-    "Springfield": "#FFFFFF",
+    "Medium-Dark": "#272725",
+    "Dark": "#000000",
+    "Light": "#EEEEEE",
 }
 
 const fgs = {
-    "Seascape": "#FFFFFF",
-    "Elflord": "#FFFFFF",
-    "Springfield": "#000000",
+    "Medium-Dark": "#FFFFFF",
+    "Dark": "#FFFFFF",
+    "Light": "#000000",
 }
 
 modeSelect.addEventListener("input", function () {
