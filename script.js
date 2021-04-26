@@ -1,6 +1,6 @@
 var number = 1;
 var selected = "main.gizmo";
-var mode = "Dark";
+var mode = "Light";
 var ed = document.getElementById("front");
 var text = document.getElementById("editor");
 var backdrop = document.querySelector(".backdrop");
@@ -58,10 +58,13 @@ function lex(code) {
                 name += c;
                 c = code[++pos];
             }
-            const keys = ["write", "if", "else", "return", "while", "new", "class", "read", "in", "for", "init", "or", "and", "not", "con", "include", "as", "this"];
+            const keys = ["write", "if", "else", "return", "while", "class", "read", "for", "or", "and", "not"];
+            const difkeys = ['this', 'as', 'init', 'include', 'in', 'new', 'con'];
             const types = ["int", "string", "char"]
             if (keys.includes(name)) {
                 html += "<span class=\"key-" + mode + "\">" + name + "</span>";
+            } else if (difkeys.includes(name)) {
+                html += "<span class=\"dif-key-" + mode + "\">" + name + "</span>";
             } else if (types.includes(name)) {
                 html += "<span class=\"type-" + mode + "\">" + name + "</span>";
             } else {
@@ -188,7 +191,7 @@ function un_insert(pos, c1, c2) {
         setCaretPosition(text, pos, pos);
     }
 }
- 
+
 function setCaretPosition(ctrl, start, end) {
 
     if (ctrl.setSelectionRange) {
@@ -224,7 +227,7 @@ text.addEventListener("keydown", function (e) {
         '(': ')',
         '"': '"',
         "'": "'",
-        '{': '\n}',
+        '{': '}',
     }
     if (Object.keys(pairs).includes(e.key)) {
         const pos = getCaretPosition(text);
@@ -261,13 +264,13 @@ text.addEventListener("scroll", function () {
 
 // on changed input
 const bgs = {
-    "Medium-Dark": "#272725",
+    "Replit": "#1d2333", // 272725
     "Dark": "#000000",
     "Light": "#EEEEEE",
 }
 
 const fgs = {
-    "Medium-Dark": "#FFFFFF",
+    "Replit": "#FFFFFF",
     "Dark": "#FFFFFF",
     "Light": "#000000",
 }
