@@ -1,6 +1,6 @@
 .tab {
-    background-color: #000000;
-    color: #FFFFFF;
+    background-color: #FFFFFF;
+    color: #000000;
 }
 
 #mode {
@@ -12,7 +12,7 @@
 .backdrop, #editor {
   font:12px 'Roboto', sans-serif;
   letter-spacing: 1px;
-  width: 65%;
+  width: 80%;
   height: 85%;
   overflow: none;
 }
@@ -61,8 +61,8 @@
   word-wrap: break-word;
   overflow: none;
   /*background-color: #323344;*/
-  background-color: #000000;
-  color: #FFFFFF;
+  background-color: #FFFFFF;
+  color: #000000;
   font-family: monospace;
   font-size: 14px;
   height: 100%;
@@ -81,33 +81,42 @@ font {
     font-size: 14px;
 }
 
-.num-Medium-Dark {
-    color: rgb(83, 151, 69);
+.num-Replit {
+    color: #B5CEA8;
 }
 
-.str-Medium-Dark {
-    color: rgb(83, 151, 69);
+.str-Replit {
+    color: #ce9178/*rgb(83, 151, 69)*/;
+     /* ce9178 */
 }
 
-.key-Medium-Dark {
-    color: rgb(30, 120, 156);
+.key-Replit {
+    color: dodgerblue;
 }
 
-.com-Medium-Dark {
+.com-Replit {
     color: rgb(105, 101, 107);
 }
 
-.type-Medium-Dark {
+.type-Replit {
     color: rgb(152, 142, 211);
 }
 
-.oper-Medium-Dark {
+.oper-Replit {
     color: #FFFFFF;
 }
 
-.mini {
-    background-color: #000000;
+.property-Replit {
     color: #FFFFFF;
+}
+
+.dif-key-Replit {
+    color: dodgerblue;
+}
+
+.mini {
+    background-color: #FFFFFF;
+    color: #000000;
 }
 
 .num-Dark {
@@ -138,6 +147,10 @@ font {
     color: rgb(0, 230, 145);
 }
 
+.dif-key-Dark {
+    color: rgb(255, 165, 0);
+}
+
 .num-Light {
     color: rgb(3, 196, 83);
 }
@@ -166,6 +179,11 @@ font {
     color: rgb(168, 103, 103);
 }
 
+.dif-key-Light {
+    color: rgb(180, 75, 39);
+}
+
 #mode {
-    background-color: #272725;
+    background-color: #FFFFFF;
+    color: #000000;
 }
