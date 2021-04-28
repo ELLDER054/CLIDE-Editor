@@ -1,6 +1,6 @@
 var number = 1;
 var selected = "main.gizmo";
-var mode = "Light";
+var mode = "Dark";
 var ed = document.getElementById("front");
 var text = document.getElementById("editor");
 var backdrop = document.querySelector(".backdrop");
@@ -58,8 +58,8 @@ function lex(code) {
                 name += c;
                 c = code[++pos];
             }
-            const keys = ["write", "if", "else", "return", "while", "class", "read", "for", "or", "and", "not"];
-            const difkeys = ['this', 'as', 'init', 'include', 'in', 'new', 'con'];
+            const keys = ["write", "if", "else", "return", "while", "class", "read", "for", "or", "and", "not", "include", "from"];
+            const difkeys = ['this', 'init', 'in', 'new', 'con'];
             const types = ["int", "string", "char"]
             if (keys.includes(name)) {
                 html += "<span class=\"key-" + mode + "\">" + name + "</span>";
@@ -264,13 +264,13 @@ text.addEventListener("scroll", function () {
 
 // on changed input
 const bgs = {
-    "Replit": "#1d2333", // 272725
+    "Gizmo": "#2D2D2E", // 272725
     "Dark": "#000000",
     "Light": "#EEEEEE",
 }
 
 const fgs = {
-    "Replit": "#FFFFFF",
+    "Gizmo": "#FFFFFF",
     "Dark": "#FFFFFF",
     "Light": "#000000",
 }
