@@ -1,11 +1,11 @@
 .tab {
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: #000000;
+    color: #FFFFFF;
 }
 
 #mode {
-    background-color: black;
-    color: white;
+    background-color: #000000;
+    color: #FFFFFF;
     float: right;
 }
 
@@ -60,9 +60,8 @@
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow: none;
-  /*background-color: #323344;*/
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: #000000;
+  color: #FFFFFF;
   font-family: monospace;
   font-size: 14px;
   height: 100%;
@@ -81,42 +80,42 @@ font {
     font-size: 14px;
 }
 
-.num-Replit {
-    color: #B5CEA8;
+.num-Gizmo {
+    color: #885744;
 }
 
-.str-Replit {
-    color: #ce9178/*rgb(83, 151, 69)*/;
+.str-Gizmo {
+    color: #885744/*rgb(83, 151, 69)*/;
      /* ce9178 */
 }
 
-.key-Replit {
-    color: dodgerblue;
+.key-Gizmo {
+    color: rgb(64, 105, 146);
 }
 
-.com-Replit {
+.com-Gizmo {
     color: rgb(105, 101, 107);
 }
 
-.type-Replit {
-    color: rgb(152, 142, 211);
+.type-Gizmo {
+    color: rgb(19, 3, 105);
 }
 
-.oper-Replit {
+.oper-Gizmo {
     color: #FFFFFF;
 }
 
-.property-Replit {
-    color: #FFFFFF;
+.property-Gizmo {
+    color: rgb(190, 106, 106);
 }
 
-.dif-key-Replit {
-    color: dodgerblue;
+.dif-key-Gizmo {
+    color: rgb(69, 126, 69);
 }
 
 .mini {
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: #000000;
+    color: #FFFFFF;
 }
 
 .num-Dark {
@@ -184,6 +183,6 @@ font {
 }
 
 #mode {
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: #000000;
+    color: #FFFFFF;
 }
