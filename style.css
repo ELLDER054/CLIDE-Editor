@@ -1,11 +1,11 @@
 .tab {
-    background-color: #000000;
-    color: #FFFFFF;
+    background-color: #22272E;
+    color: #F8F8F8;
 }
 
 #mode {
-    background-color: #000000;
-    color: #FFFFFF;
+    background-color: #22272E;
+    color: #F8F8F8;
     float: right;
 }
 
@@ -43,7 +43,7 @@
   resize: none;
   overflow: none;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 12px;
   overflow-y: auto;
   padding-left: 48px;
 }
@@ -60,10 +60,10 @@
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow: none;
-  background-color: #000000;
-  color: #FFFFFF;
+  background-color: #22272E;
+  color: #F8F8F8;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 12px;
   height: 100%;
   width: 100%;
   counter-reset: line;
@@ -72,50 +72,49 @@
 }
 p{
   font-family: monospace;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 font {
     font-family: monospace;
-    font-size: 14px;
-}
-
-.num-Gizmo {
-    color: #885744;
-}
-
-.str-Gizmo {
-    color: #885744/*rgb(83, 151, 69)*/;
-     /* ce9178 */
-}
-
-.key-Gizmo {
-    color: rgb(64, 105, 146);
-}
-
-.com-Gizmo {
-    color: rgb(105, 101, 107);
-}
-
-.type-Gizmo {
-    color: rgb(19, 3, 105);
-}
-
-.oper-Gizmo {
-    color: #FFFFFF;
-}
-
-.property-Gizmo {
-    color: rgb(190, 106, 106);
-}
-
-.dif-key-Gizmo {
-    color: rgb(69, 126, 69);
+    font-size: 12px;
 }
 
 .mini {
-    background-color: #000000;
-    color: #FFFFFF;
+    background-color: #22272E;
+    color: #F8F8F8;
+}
+
+.num-Gizmo {
+    color: #65C3FF;
+}
+
+.str-Gizmo {
+    color: #65C3FF;
+}
+
+.key-Gizmo {
+    color: #F47067;
+}
+
+.com-Gizmo {
+    color: rgb(77, 77, 77);
+}
+
+.type-Gizmo {
+    color: #F47067;
+}
+
+.oper-Gizmo {
+    color: rgb(255, 255, 255);
+}
+
+.property-Gizmo {
+    color: #F8F8F8;
+}
+
+.dif-key-Gizmo {
+    color: #6CB6FF;
 }
 
 .num-Dark {
@@ -128,6 +127,7 @@ font {
 
 .key-Dark {
     color: dodgerblue;
+    font-weight: bold;
 }
 
 .com-Dark {
@@ -148,6 +148,7 @@ font {
 
 .dif-key-Dark {
     color: rgb(255, 165, 0);
+    font-weight: bold;
 }
 
 .num-Light {
@@ -160,6 +161,7 @@ font {
 
 .key-Light {
     color: rgb(49, 41, 168);
+    font-weight: bold;
 }
 
 .com-Light {
@@ -180,9 +182,5 @@ font {
 
 .dif-key-Light {
     color: rgb(180, 75, 39);
-}
-
-#mode {
-    background-color: #000000;
-    color: #FFFFFF;
+    font-weight: bold;
 }
