@@ -105,7 +105,7 @@ function lex(code, curr_lineno) {
         } else if (c === '{') {
             found_opening_brace = true;
             //console.log("found { at lineno " + lineno + " block_c " + block_c);
-            if (!never_count_again && (lineno >= count_to_lineno(getCaretPosition(text)))) {
+            if (!never_count_again && (lineno > count_to_lineno(getCaretPosition(text)))) {
                 never_count_again = true;
                 //console.log("{ surpassed lineno " + lineno + " block_c " + block_c);
             }
