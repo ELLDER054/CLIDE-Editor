@@ -1,11 +1,13 @@
 var number = 1;
 var selected = "main.gizmo";
-var mode = "Dark";
+var mode = "Gizmo";
 var ed = document.getElementById("front");
 var text = document.getElementById("editor");
 var backdrop = document.querySelector(".backdrop");
 var modeSelect = document.getElementById("mode");
+let found_opening_brace = false;
 text.focus();
+resetColors();
 
 var tab_values = {
     "main.gizmo": "",
@@ -17,13 +19,21 @@ function isDigit(c) {
 }
 
 function isAlpha(c) {
-    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_';
 }
 
-function lex(code) {
+function lex(code, curr_lineno) {
+    let block_c = 0;
+    let block_begins = [];
+    let lineno = 1;
+    let never_count_again = false;
+    let block_ends = [];
     const operators = ["+", "-", "*", "/", "="];
     let html = "";
     let pos = 0;
+    //console.log("----------------------------");
+    //console.log("Cursor is at line " + count_to_lineno(getCaretPosition(text)));
+    found_opening_brace = false;
     while (pos < code.length) {
         let c = code[pos];
         if (isDigit(c)) {
@@ -58,7 +68,7 @@ function lex(code) {
                 name += c;
                 c = code[++pos];
             }
-            const keys = ["write", "if", "else", "return", "while", "class", "read", "for", "or", "and", "not", "include", "from"];
+            const keys = ["write", "if", "else", "return", "while", "class", "read", "for", "or", "and", "not", "include", "from", "true", "false"];
             const difkeys = ['this', 'init', 'in', 'new', 'con'];
             const types = ["int", "string", "char"]
             if (keys.includes(name)) {
@@ -92,17 +102,71 @@ function lex(code) {
                 c = code[++pos];
             }
             html += "<span class=\"com-" + mode + "\">" + comment + "</span>";
+        } else if (c === '{') {
+            found_opening_brace = true;
+            //console.log("found { at lineno " + lineno + " block_c " + block_c);
+            if (!never_count_again && (lineno >= count_to_lineno(getCaretPosition(text)))) {
+                never_count_again = true;
+                //console.log("{ surpassed lineno " + lineno + " block_c " + block_c);
+            }
+            pos++;
+            if (never_count_again) {
+                html += '{';
+                continue;
+            }
+            block_c++;
+            html += '{';
+            
+            block_begins.push(pos);
+        } else if (c === '}') {
+           //console.log("found } at lineno " + lineno + " block_c " + block_c);
+            if (!never_count_again && (lineno >= count_to_lineno(getCaretPosition(text)))) {
+                never_count_again = true;
+                //console.log("} surpassed lineno " + lineno + " block_c " + block_c);
+            }
+            pos++;
+            if (never_count_again) {
+                html += '}';
+                continue;
+            }
+            block_c--;
+            html += '}';
+            block_ends.push(pos);
+        } else if (c === '\n') {
+            lineno++;
+            html += '\n';
+            pos++;
         } else {
             html += c;
             pos++;
         }
     }
-    return html;
+    return {
+        h: html,
+        bb: block_begins,
+        be: block_ends,
+        bc: block_c,
+    };
+}
+
+function count_to_lineno(pos) {
+    let i = 0;
+    let lineno = 1;
+    for (const c of text.value) {
+        if (c === '\n') {
+            lineno++;
+        }
+        if (i >= pos) {
+            break;
+        }
+
+        i++;
+    }
+    return lineno;
 }
 
 function applyColors(text) {
-    let code = lex(text);
-    return code;
+    return lex(text);
 }
 
 // tab control
@@ -137,30 +201,12 @@ function select(v) {
     selected = v;
     text.value = tab_values[selected];
     text.focus();
-    let s = applyColors(text.value).split("\n");
-    let code = "";
-    for (const line of s) {
-        if (line === "") {
-            code += "<code>\n</code>";
-        } else {
-            code += "<code>" + line + "</code>";
-        }
-    }
-    ed.innerHTML = code;
+    resetColors();
 }
 
 // on changed input
 text.addEventListener("input", function () {
-    let s = applyColors(text.value).split("\n");
-    let code = "";
-    for (const line of s) {
-        if (line === "") {
-            code += "<code>\n</code>";
-        } else {
-            code += "<code>" + line + "</code>";
-        }
-    }
-    ed.innerHTML = code;
+    resetColors();
 });
 
 // matching pairs
@@ -209,7 +255,7 @@ function setCaretPosition(ctrl, start, end) {
 }
 
 function resetColors() {
-    let s = applyColors(text.value).split("\n");
+    let s = applyColors(text.value).h.split("\n");
     let code = "";
     for (const line of s) {
         if (line === "") {
@@ -227,7 +273,6 @@ text.addEventListener("keydown", function (e) {
         '(': ')',
         '"': '"',
         "'": "'",
-        '{': '}',
     }
     if (Object.keys(pairs).includes(e.key)) {
         const pos = getCaretPosition(text);
@@ -253,8 +298,37 @@ text.addEventListener("keydown", function (e) {
             un_insert(pos, text.value[pos - 1], pairs[text.value[pos - 1]]);
             resetColors();
         }
+    } else if (e.which === 13) {
+        const pos = getCaretPosition(text);
+        let block_c = find_block_c(pos);
+        //console.log("Found block_c " + block_c);
+
+        if (block_c > 0) {
+          //console.log("Using ident with block_c " + block_c);
+          insert(pos, "\n" + "   ".repeat(block_c));
+          setCaretPosition(text, pos + 1 + 3 * block_c, pos + 1 + 3 * block_c);
+          resetColors();
+          e.preventDefault();
+        }
+        
     }
 });
+
+function* enumerate(array) {
+    for (let i = 0; i < array.length; i += 1) {
+        yield [i, array[i]];
+    }
+}
+
+function find_block_c(pos) {
+    let blocks = lex(text.value);
+    for (const pair of enumerate(blocks.bb)) {
+        if (pos >= pair[1]) {
+            return blocks.bc;
+        }
+    }
+    return false;
+}
 
 // scroll
 text.addEventListener("scroll", function () {
@@ -264,13 +338,13 @@ text.addEventListener("scroll", function () {
 
 // on changed input
 const bgs = {
-    "Gizmo": "#2D2D2E", // 272725
+    "Gizmo": "#22272E",
     "Dark": "#000000",
     "Light": "#EEEEEE",
 }
 
 const fgs = {
-    "Gizmo": "#FFFFFF",
+    "Gizmo": "#F8F8F8",
     "Dark": "#FFFFFF",
     "Light": "#000000",
 }
@@ -289,7 +363,7 @@ modeSelect.addEventListener("input", function () {
     modeSelect.style.color = fgs[mode];
     ed.style.backgroundColor = bgs[mode];
     ed.style.color = fgs[mode];
-    let s = applyColors(text.value).split("\n");
+    let s = applyColors(text.value).h.split("\n");
     let code = "";
     for (const line of s) {
         if (line === "") {
